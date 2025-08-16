@@ -4,42 +4,55 @@ Open Policy Agent (OPA) rules and policies for organizational governance.
 
 ## Overview
 
-This repository contains OPA policies that enforce security, compliance, and best practices across our infrastructure and applications.
+This repository contains a production-ready OPA framework (v1.7.1) that enforces security, compliance, and best practices across our infrastructure and applications. The framework follows OPA best practices for bundle management, testing, performance optimization, and observability.
 
 ## Repository Structure
 
 ```
 .
-├── policies/          # OPA policy files organized by domain
-│   ├── kubernetes/    # Kubernetes admission control policies
-│   ├── terraform/     # Terraform plan validation policies
-│   ├── docker/        # Docker image and container policies
-│   └── github/        # GitHub repository and workflow policies
-├── data/              # Static data files used by policies
-├── examples/          # Example inputs and test cases
-├── tests/             # Policy test files
-└── .github/workflows/ # CI/CD workflows for policy validation
+├── policies/              # OPA policy files organized by domain
+│   ├── kubernetes/        # Kubernetes admission control policies
+│   ├── terraform/         # Terraform plan validation policies
+│   ├── docker/            # Docker image and container policies
+│   ├── github/            # GitHub repository and workflow policies
+│   └── lib/               # Shared policy libraries and utilities
+├── data/                  # Static data files (JSON/YAML) for policies
+├── examples/              # Example inputs and test cases
+├── tests/                 # Policy test files (*_test.rego)
+├── benchmarks/            # Performance benchmarking configurations
+├── bundles/               # Pre-built policy bundles
+│   └── .manifest          # Bundle manifest with metadata
+├── config/                # OPA server configuration files
+│   ├── config.yaml        # Main OPA configuration
+│   └── decision-log.yaml  # Decision logging configuration
+├── scripts/               # Utility scripts for operations
+└── .github/workflows/     # CI/CD workflows for policy validation
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Open Policy Agent](https://www.openpolicyagent.org/docs/latest/#running-opa) (OPA) CLI
-- [opa-test](https://www.openpolicyagent.org/docs/latest/policy-testing/) for testing policies
+- [Open Policy Agent](https://www.openpolicyagent.org/docs/v1.7.1/) (OPA) CLI **v1.7.1**
+- [opa-test](https://www.openpolicyagent.org/docs/v1.7.1/policy-testing/) for testing policies
 - [Conftest](https://www.conftest.dev/) for validating configurations (optional)
+- `jq` for JSON processing
+- `make` for automation
 
 ### Installation
 
-1. Install OPA:
+1. Install OPA v1.7.1:
 ```bash
 # macOS
-brew install opa
+brew install opa@1.7.1
 
-# Linux
-curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+# Linux (recommended)
+curl -L -o opa https://github.com/open-policy-agent/opa/releases/download/v1.7.1/opa_linux_amd64_static
 chmod 755 opa
 sudo mv opa /usr/local/bin/
+
+# Verify installation
+opa version
 ```
 
 2. Clone this repository:

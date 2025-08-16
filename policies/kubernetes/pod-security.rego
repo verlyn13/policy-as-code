@@ -1,13 +1,34 @@
 package kubernetes.admission
 
+import data.lib.common
+import data.lib.kubernetes
 import future.keywords.contains
 import future.keywords.if
 import future.keywords.in
+
+# Metadata for policy documentation
+# METADATA
+# title: Kubernetes Pod Security Policy
+# description: Enforces security best practices for Kubernetes pods
+# authors:
+# - Policy Team
+# custom:
+#   severity: high
+#   category: security
+#   version: 1.0.0
 
 default allow := false
 
 allow if {
     count(violation) == 0
+}
+
+# Decision record for audit logging
+decision = {
+    "allowed": allow,
+    "violations": violation,
+    "resource": common.resource_identifier(input),
+    "timestamp": time.now_ns()
 }
 
 violation[msg] {

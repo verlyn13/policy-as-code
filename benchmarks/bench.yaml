@@ -1,0 +1,61 @@
+# OPA Benchmark Configuration
+# Define performance tests for critical policies
+
+benchmarks:
+  - name: "kubernetes_admission_allow"
+    package: "data.kubernetes.admission"
+    rule: "allow"
+    iterations: 1000
+    inputs:
+      - name: "secure_pod"
+        file: "examples/kubernetes/pod-secure.json"
+      - name: "minimal_pod"
+        data:
+          spec:
+            containers:
+              - name: "test"
+                image: "nginx:latest"
+                resources:
+                  limits:
+                    memory: "512Mi"
+                    cpu: "500m"
+
+  - name: "kubernetes_violations"
+    package: "data.kubernetes.admission"
+    rule: "violation"
+    iterations: 1000
+    inputs:
+      - name: "insecure_pod"
+        data:
+          spec:
+            containers:
+              - name: "test"
+                securityContext:
+                  privileged: true
+
+  - name: "terraform_validation"
+    package: "data.terraform.validation"
+    rule: "deny"
+    iterations: 500
+    inputs:
+      - name: "resource_without_tags"
+        data:
+          resource_changes:
+            - type: "aws_instance"
+              change:
+                after:
+                  tags: {}
+
+# Performance thresholds (milliseconds)
+thresholds:
+  p50: 1.0  # 50th percentile should be under 1ms
+  p95: 5.0  # 95th percentile should be under 5ms
+  p99: 10.0 # 99th percentile should be under 10ms
+
+# Profiling configuration
+profiling:
+  enabled: true
+  output: "benchmarks/profiles/"
+  cpu_profile: true
+  memory_profile: true
+  trace: true
