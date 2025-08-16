@@ -24,6 +24,13 @@ htmlcov/
 .env.local
 *.env
 
+# Security - NEVER commit these
+charter-signing.pem
+*.pem.b64
+private-*.pem
+*-private.pem
+*-signing.pem
+
 # Temporary files
 tmp/
 temp/

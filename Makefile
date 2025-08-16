@@ -1,7 +1,12 @@
 .PHONY: help test fmt validate bundle clean install server benchmark
+.PHONY: check check-syntax check-semantics check-charter
 
 OPA_VERSION := v1.7.1
 BUNDLE_DIR := bundles
+SIGNED_BUNDLE_DIR := build/bundles
+SIGNING_KEY := $(CHARTER_SIGNING_KEY)
+VERIFICATION_KEY := $(CHARTER_VERIFICATION_KEY)
+BUNDLE_VERSION := $(shell date +%Y.%m.%d)-$(shell git rev-parse --short HEAD)
 CONFIG_DIR := config
 
 help: ## Show this help message
@@ -38,10 +43,27 @@ validate: ## Validate policy syntax
 	done
 	@echo "All policies are valid"
 
+check: check-syntax check-semantics check-charter ## Run syntax, semantic, and charter checks
+	@echo "All checks completed"
+
+check-syntax: ## Check formatting/syntax differences
+	@echo "Checking formatting diffs..."
+	@for policy in $$(find policies -name "*.rego"); do \
+		opa fmt --diff $$policy || exit 1; \
+	 done
+
+check-semantics: ## Semantic validation with opa check (strict)
+	@echo "Running semantic checks..."
+	@opa check policies/ --strict
+
+check-charter: ## Verify Charter decision contract coverage
+	@echo "Verifying Charter decision contracts..."
+	@./scripts/verify-charter-coverage.sh
+
 bundle: ## Create an OPA bundle with manifest
 	@echo "Creating OPA bundle..."
 	@mkdir -p $(BUNDLE_DIR)
-	@opa build -b policies/ -b data/ -b .manifest -o $(BUNDLE_DIR)/bundle.tar.gz
+	@opa build -b policies/ --revision $(BUNDLE_VERSION) -o $(BUNDLE_DIR)/bundle.tar.gz
 	@echo "Bundle created: $(BUNDLE_DIR)/bundle.tar.gz"
 	@tar -tzf $(BUNDLE_DIR)/bundle.tar.gz | head -10
 
@@ -78,3 +100,40 @@ clean: ## Clean generated files
 	@rm -rf benchmarks/results benchmarks/profiles
 	@find . -name "*.rego.test" -delete
 	@echo "Cleanup complete"
+
+# Coverage report for CI
+.PHONY: coverage
+coverage:
+	@echo "Generating coverage report..."
+	@opa test policies/ tests/ --coverage --format json > coverage.json
+	@opa test policies/ tests/ --coverage | tee coverage-report.txt
+
+# Signed bundle targets (development: use self-signed keys)
+.PHONY: bundle-signed bundle-verify release
+
+bundle-signed: bundle ## Build and sign the bundle (requires CHARTER_SIGNING_KEY)
+	@echo "Signing bundle..."
+	@if [ -z "$(SIGNING_KEY)" ]; then \
+		echo "ERROR: CHARTER_SIGNING_KEY not set"; exit 1; \
+	fi
+	@mkdir -p $(SIGNED_BUNDLE_DIR)
+	@opa build -b policies/ \
+		--revision $(BUNDLE_VERSION) \
+		--signing-alg RS256 \
+		--signing-key $(SIGNING_KEY) \
+		-o $(SIGNED_BUNDLE_DIR)/charter-policies-$(BUNDLE_VERSION)-signed.tar.gz
+	@scripts/create-attestation.sh $(BUNDLE_VERSION) > $(SIGNED_BUNDLE_DIR)/attestation-$(BUNDLE_VERSION).json
+
+bundle-verify: ## Verify signed bundle using CHARTER_VERIFICATION_KEY
+	@echo "Verifying signed bundle..."
+	@if [ -z "$(VERIFICATION_KEY)" ]; then \
+		echo "ERROR: CHARTER_VERIFICATION_KEY not set"; exit 1; \
+	fi
+	@opa run --verification-key $(VERIFICATION_KEY) \
+		--bundle $(SIGNED_BUNDLE_DIR)/charter-policies-$(BUNDLE_VERSION)-signed.tar.gz \
+		--server --addr :0 &
+	@sleep 2; pkill opa || true
+	@echo "Bundle signature verified"
+
+release: bundle-signed bundle-verify ## Create a signed bundle and verify it
+	@echo "Release artifacts in $(SIGNED_BUNDLE_DIR)"

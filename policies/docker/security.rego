@@ -38,55 +38,55 @@ denied_images := {
 }
 
 # Deny using latest tag
-deny[msg] {
+deny contains msg if {
     input.config.Image
     endswith(input.config.Image, ":latest")
     msg := "Container must not use 'latest' tag"
 }
 
 # Deny untrusted base images
-deny[msg] {
+deny contains msg if {
     input.config.Image
     not common.allowed_image(input.config.Image, allowed_registries)
     msg := sprintf("Image '%s' is not from an allowed registry", [input.config.Image])
 }
 
 # Deny running as root
-deny[msg] {
+deny contains msg if {
     input.config.User == ""
     msg := "Container must not run as root user"
 }
 
-deny[msg] {
+deny contains msg if {
     input.config.User == "root"
     msg := "Container must not run as root user"
 }
 
-deny[msg] {
+deny contains msg if {
     input.config.User == "0"
     msg := "Container must not run as root user (UID 0)"
 }
 
 # Deny privileged containers
-deny[msg] {
+deny contains msg if {
     input.host_config.Privileged == true
     msg := "Container must not run in privileged mode"
 }
 
 # Deny containers with CAP_SYS_ADMIN
-deny[msg] {
+deny contains msg if {
     "CAP_SYS_ADMIN" in input.host_config.CapAdd
     msg := "Container must not have CAP_SYS_ADMIN capability"
 }
 
 # Deny containers that can escalate privileges
-deny[msg] {
+deny contains msg if {
     input.host_config.SecurityOpt[_] == "no-new-privileges=false"
     msg := "Container must not be able to gain new privileges"
 }
 
 # Require health checks
-deny[msg] {
+deny contains msg if {
     not input.config.Healthcheck
     msg := "Container must define a health check"
 }
@@ -100,37 +100,37 @@ sensitive_paths := {
     "/sys"
 }
 
-deny[msg] {
+deny contains msg if {
     mount := input.host_config.Mounts[_]
     mount.Source in sensitive_paths
     msg := sprintf("Container must not mount sensitive path: %s", [mount.Source])
 }
 
 # Require resource limits
-deny[msg] {
+deny contains msg if {
     not input.host_config.Memory
     msg := "Container must specify memory limits"
 }
 
-deny[msg] {
+deny contains msg if {
     not input.host_config.CpuQuota
     msg := "Container must specify CPU limits"
 }
 
 # Require read-only root filesystem
-deny[msg] {
+deny contains msg if {
     input.host_config.ReadonlyRootfs != true
     msg := "Container should have read-only root filesystem"
 }
 
 # Deny containers with host network mode
-deny[msg] {
+deny contains msg if {
     input.host_config.NetworkMode == "host"
     msg := "Container must not use host network mode"
 }
 
 # Deny containers with host PID namespace
-deny[msg] {
+deny contains msg if {
     input.host_config.PidMode == "host"
     msg := "Container must not use host PID namespace"
 }

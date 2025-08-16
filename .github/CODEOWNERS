@@ -1,0 +1,22 @@
+# CODEOWNERS
+# Map ownership to governance roles for policy-as-code repository
+
+# Global default - primary maintainer
+*                                   @verlyn13
+
+# Charter & Constitution policies - requires multi-party review
+policies/charter/                   @verlyn13 @happy-patterns-org/governance
+
+# Financial/Capital rules - sensitive governance
+policies/**/capital*                @verlyn13 @The-Nash-Group/finance
+
+# Domain directories - technical policies
+policies/kubernetes/                @verlyn13 @happy-patterns-org/platform
+policies/terraform/                 @verlyn13 @happy-patterns-org/platform
+policies/docker/                    @verlyn13 @happy-patterns-org/platform
+policies/github/                    @verlyn13 @happy-patterns-org/platform
+policies/lib/                       @verlyn13 @happy-patterns-org/platform
+
+# CI and release workflows - requires governance approval
+.github/workflows/                  @verlyn13 @The-Nash-Group/governance
+.manifest                           @verlyn13 @happy-patterns-org/governance

@@ -31,7 +31,7 @@ required_tags := {
 }
 
 # Deny resources without required tags
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.change.actions[_] == "create"
     resource.type != "random_id"  # Exclude certain resource types
@@ -46,7 +46,7 @@ deny[msg] {
 }
 
 # Deny S3 buckets without encryption
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_s3_bucket"
     not resource.change.after.server_side_encryption_configuration
@@ -55,7 +55,7 @@ deny[msg] {
 }
 
 # Deny public S3 buckets
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_s3_bucket"
     resource.change.after.acl == "public-read"
@@ -64,7 +64,7 @@ deny[msg] {
 }
 
 # Deny EC2 instances without monitoring
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_instance"
     not resource.change.after.monitoring
@@ -73,7 +73,7 @@ deny[msg] {
 }
 
 # Deny security groups with unrestricted ingress
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_security_group_rule"
     resource.change.after.type == "ingress"
@@ -85,7 +85,7 @@ deny[msg] {
 }
 
 # Deny RDS instances without backup
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_db_instance"
     resource.change.after.backup_retention_period < 7
@@ -94,7 +94,7 @@ deny[msg] {
 }
 
 # Cost optimization: Deny expensive instance types in non-production
-deny[msg] {
+deny contains msg if {
     resource := input.resource_changes[_]
     resource.type == "aws_instance"
     resource.change.after.tags.Environment != "production"
