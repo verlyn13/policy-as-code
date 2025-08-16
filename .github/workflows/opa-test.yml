@@ -1,0 +1,46 @@
+name: OPA Policy Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: latest
+    
+    - name: Run OPA Tests
+      run: |
+        opa test policies/ tests/ -v --coverage --format json | tee test-results.json
+    
+    - name: Check Test Coverage
+      run: |
+        coverage=$(cat test-results.json | jq '.coverage // 0')
+        echo "Test coverage: ${coverage}%"
+        if (( $(echo "$coverage < 80" | bc -l) )); then
+          echo "Test coverage is below 80%"
+          exit 1
+        fi
+    
+    - name: Validate Policy Syntax
+      run: |
+        for policy in $(find policies -name "*.rego"); do
+          echo "Validating $policy"
+          opa fmt --diff $policy
+        done
+    
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: test-results.json
