@@ -9,35 +9,35 @@ import future.keywords.in
 # Assert that a value is true
 assert_true(value, message) if {
     value == true
-} else = error {
+} else = error if {
     error := sprintf("Assertion failed: %s", [message])
 }
 
 # Assert that two values are equal
 assert_equal(actual, expected, message) if {
     actual == expected
-} else = error {
+} else = error if {
     error := sprintf("Assertion failed: %s. Expected: %v, Got: %v", [message, expected, actual])
 }
 
 # Assert that a value is in a collection
 assert_contains(collection, value, message) if {
     value in collection
-} else = error {
+} else = error if {
     error := sprintf("Assertion failed: %s. Value %v not found in collection", [message, value])
 }
 
 # Assert that a collection is empty
 assert_empty(collection, message) if {
     count(collection) == 0
-} else = error {
+} else = error if {
     error := sprintf("Assertion failed: %s. Collection has %d items", [message, count(collection)])
 }
 
 # Assert that a collection has a specific size
 assert_size(collection, expected_size, message) if {
     count(collection) == expected_size
-} else = error {
+} else = error if {
     error := sprintf("Assertion failed: %s. Expected size: %d, Got: %d", [message, expected_size, count(collection)])
 }
 
@@ -58,7 +58,13 @@ mock_kubernetes_pod(name, namespace) = pod if {
             "containers": [
                 {
                     "name": sprintf("%s-container", [name]),
-                    "image": "nginx:latest",
+                    "image": "nginx:1.21",
+                    "securityContext": {
+                        "runAsNonRoot": true,
+                        "privileged": false,
+                        "allowPrivilegeEscalation": false,
+                        "readOnlyRootFilesystem": true
+                    },
                     "resources": {
                         "limits": {
                             "memory": "512Mi",
@@ -67,6 +73,18 @@ mock_kubernetes_pod(name, namespace) = pod if {
                         "requests": {
                             "memory": "256Mi",
                             "cpu": "250m"
+                        }
+                    },
+                    "livenessProbe": {
+                        "httpGet": {
+                            "path": "/health",
+                            "port": 8080
+                        }
+                    },
+                    "readinessProbe": {
+                        "httpGet": {
+                            "path": "/ready",
+                            "port": 8080
                         }
                     }
                 }
