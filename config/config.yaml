@@ -1,0 +1,64 @@
+# OPA Server Configuration
+# This configuration file defines how OPA operates in production
+
+# Server configuration
+services:
+  authz:
+    url: http://localhost:8181
+
+# Bundle configuration for policy updates
+bundles:
+  authz:
+    resource: "/bundles/bundle.tar.gz"
+    persist: false
+    polling:
+      min_delay_seconds: 10
+      max_delay_seconds: 30
+    signing:
+      keyid: "global"
+      scope: "read"
+
+# Decision logging configuration
+decision_logs:
+  console: true
+  reporting:
+    buffer_size_limit_bytes: 32768
+    upload_size_limit_bytes: 32768
+    min_delay_seconds: 5
+    max_delay_seconds: 10
+
+# Distributed tracing configuration
+distributed_tracing:
+  type: "grpc"
+  address: "localhost:4317"
+  service_name: "opa-policy-engine"
+  sample_percentage: 100
+  
+# Status API configuration
+status:
+  console: true
+
+# Discovery configuration for dynamic bundles
+discovery:
+  name: "discovery"
+  resource: "/bundles/discovery.tar.gz"
+
+# Default authorization decision
+default_authorization_decision: "/system/authz/allow"
+
+# Caching configuration
+caching:
+  inter_query_builtin_cache:
+    max_size_bytes: 10000000
+
+# Plugin configuration
+plugins:
+  envoy_ext_authz_grpc:
+    addr: ":9191"
+    enable_reflection: true
+
+# Labels for identifying this OPA instance
+labels:
+  app: "policy-engine"
+  region: "us-east-1"
+  version: "1.0.0"

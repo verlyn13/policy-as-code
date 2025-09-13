@@ -1,0 +1,57 @@
+name: Policy Validation
+
+on:
+  pull_request:
+    paths:
+      - 'policies/**'
+      - 'data/**'
+      - 'schemas/**'
+      - '.manifest'
+      - 'Makefile'
+  push:
+    branches: [ main ]
+
+env:
+  OPA_VERSION: v1.7.1
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq bc
+
+      - name: Setup OPA
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: ${{ env.OPA_VERSION }}
+
+      - name: Verify OPA Installation
+        run: opa version
+
+      - name: Run Syntax Checks
+        run: make check-syntax
+
+      - name: Run Semantic Validation
+        run: make check-semantics
+
+      - name: Verify Charter Coverage
+        run: make check-charter
+
+      - name: Run Tests
+        run: make test
+
+      - name: Coverage Report (threshold 80%)
+        run: |
+          make coverage
+          cov=$(jq -r '.coverage // 0' coverage.json)
+          echo "Coverage: ${cov}%"
+          if (( $(echo "$cov < 80" | bc -l) )); then
+            echo "Coverage threshold not met"; exit 1; fi
+
+      - name: Benchmarks
+        run: make benchmark

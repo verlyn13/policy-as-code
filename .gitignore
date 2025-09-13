@@ -1,0 +1,61 @@
+# OPA and testing artifacts
+*.rego.test
+*.tar.gz
+bundle.tar.gz
+.opa/
+.opa_history
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing and coverage
+coverage/
+*.coverage
+.coverage
+htmlcov/
+
+# Environment and configuration
+.env
+.env.local
+*.env
+
+# Security - NEVER commit these
+charter-signing.pem
+*.pem.b64
+private-*.pem
+*-private.pem
+*-signing.pem
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+
+# Build artifacts
+build/
+dist/
+out/
+
+# Node.js (if using JS tooling)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Python (if using Python tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+.venv/
+
+# Documentation build
+docs/_build/
+site/

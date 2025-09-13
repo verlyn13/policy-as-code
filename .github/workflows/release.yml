@@ -1,0 +1,125 @@
+name: Release Signed Bundle
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: true
+        type: string
+
+env:
+  OPA_VERSION: v1.7.1
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      attestations: write
+      id-token: write
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: ${{ env.OPA_VERSION }}
+    
+    - name: Set version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.version }}"
+        else
+          VERSION="${{ github.ref_name }}"
+        fi
+        echo "VERSION=${VERSION}" >> $GITHUB_ENV
+        echo "BUNDLE_VERSION=${VERSION#v}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    
+    - name: Retrieve signing keys from secrets
+      run: |
+        echo "${{ secrets.CHARTER_SIGNING_KEY_B64 }}" | base64 -d > /tmp/charter-signing.pem
+        echo "${{ secrets.CHARTER_VERIFY_KEY_B64 }}" | base64 -d > /tmp/charter-verify.pem
+        chmod 600 /tmp/charter-signing.pem
+    
+    - name: Run tests
+      run: |
+        make test
+        make coverage
+    
+    - name: Run Charter validation
+      run: |
+        make check-charter
+    
+    - name: Build signed bundle
+      run: |
+        export CHARTER_SIGNING_KEY=/tmp/charter-signing.pem
+        export CHARTER_VERIFICATION_KEY=/tmp/charter-verify.pem
+        make bundle-signed
+    
+    - name: Verify signed bundle
+      run: |
+        export CHARTER_VERIFICATION_KEY=/tmp/charter-verify.pem
+        make bundle-verify
+    
+    - name: Generate attestation
+      id: attestation
+      run: |
+        ./scripts/create-attestation.sh ${{ env.BUNDLE_VERSION }} > attestation.json
+        echo "attestation_hash=$(sha256sum attestation.json | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+    
+    - name: Generate SBOM attestation
+      uses: actions/attest-sbom@v1
+      with:
+        subject-path: 'build/bundles/charter-policies-${{ env.BUNDLE_VERSION }}-signed.tar.gz'
+        sbom-path: 'attestation.json'
+        
+    - name: Generate build attestation
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-path: 'build/bundles/charter-policies-${{ env.BUNDLE_VERSION }}-signed.tar.gz'
+    
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ env.VERSION }}
+        name: Charter Policies ${{ env.VERSION }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        files: |
+          build/bundles/charter-policies-${{ env.BUNDLE_VERSION }}-signed.tar.gz
+          build/bundles/attestation-${{ env.BUNDLE_VERSION }}.json
+          docs/keys/charter-verify.pem
+          coverage-report.txt
+        body: |
+          ## Charter Policy Bundle Release ${{ env.VERSION }}
+          
+          ### 📦 Bundle Information
+          - **Version**: ${{ env.BUNDLE_VERSION }}
+          - **OPA Version**: ${{ env.OPA_VERSION }}
+          - **Attestation Hash**: ${{ steps.attestation.outputs.attestation_hash }}
+          
+          ### ✅ Verification
+          To verify the signed bundle:
+          ```bash
+          opa run --verification-key charter-verify.pem \
+            --bundle charter-policies-${{ env.BUNDLE_VERSION }}-signed.tar.gz \
+            --server
+          ```
+          
+          ### 📋 Charter Coverage
+          - Article I: Integrity & Audit
+          - Article II: Capital Requirements
+          - Article III: Entity Management
+          
+          ### 🔒 Security
+          - Bundle is cryptographically signed
+          - Attestation provided for supply chain security
+          - SBOM and build provenance included

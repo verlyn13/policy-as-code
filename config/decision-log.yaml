@@ -1,0 +1,52 @@
+# Decision Logging Configuration
+# Comprehensive logging setup for audit and compliance
+
+decision_logs:
+  # Console logging for development
+  console: true
+  
+  # Production logging to external service
+  service: logs
+  reporting:
+    buffer_size_limit_bytes: 32768
+    upload_size_limit_bytes: 32768
+    min_delay_seconds: 5
+    max_delay_seconds: 10
+    trigger: "event"
+  
+  # Mask sensitive fields in logs
+  mask:
+    - "/input/password"
+    - "/input/token"
+    - "/input/secret"
+    - "/input/credentials"
+  
+  # Drop specific decision paths
+  drop:
+    - "/health"
+    - "/metrics"
+    - "/ready"
+  
+  # Rate limiting
+  rate_limit_per_second: 100
+
+services:
+  logs:
+    url: "${DECISION_LOG_URL}"
+    credentials:
+      bearer:
+        token: "${DECISION_LOG_TOKEN}"
+    headers:
+      X-OPA-Instance: "${HOSTNAME}"
+      X-Environment: "${ENVIRONMENT}"
+    
+# Plugin for enhanced logging
+plugins:
+  decision_logger:
+    enabled: true
+    output_path: "/var/log/opa/decisions.log"
+    format: "json"
+    max_size_mb: 100
+    max_backups: 10
+    max_age_days: 30
+    compress: true

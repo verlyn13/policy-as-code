@@ -1,0 +1,11 @@
+# Age Identity Backup
+# Created: 2025-08-15T20:47:43-08:00
+# KEEP THIS FILE SECURE AND BACKED UP!
+
+## Generated Age Key (Not Used - gopass created its own)
+Public key: age1sqd5dhkafnzgvtskyuqx99y6rvsdpuysg9cgu0sp2p7nrjjrdeaqy2ctg3
+AGE-SECRET-KEY-1LK0KDU258D35E59ERR4MMKUAAWJEDQCTXJPRFLXVME6Y93L462AQ507Y9K
+
+## Gopass Age Key
+Passphrase: escapable diameter silk discover
+# The actual key is stored encrypted in ~/.config/gopass/age/identities
