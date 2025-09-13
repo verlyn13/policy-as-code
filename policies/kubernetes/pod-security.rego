@@ -22,12 +22,19 @@ allow if {
 	count(violation) == 0
 }
 
+policy := {
+    "id": "kubernetes/pod-security",
+    "title": "Kubernetes Pod Security Policy",
+    "docs_url": "https://github.com/verlyn13/pac/blob/main/policies/kubernetes/pod-security.rego"
+}
+
 # Decision record for audit logging
 decision := {
-	"allowed": allow,
-	"violations": violation,
-	"resource": common.resource_identifier(input),
-	"timestamp": time.now_ns(),
+    "allowed": allow,
+    "policy": policy,
+    "violations": violation,
+    "resource": common.resource_identifier(input),
+    "timestamp": time.now_ns(),
 }
 
 violation contains msg if {

@@ -50,6 +50,75 @@ test-dr: ## Test disaster recovery procedure
 	@./scripts/test-disaster-recovery.sh
 
 clean: ## Clean up temporary files
-	@find . -type f -name "*.tfplan*" -delete
-	@find . -type f -name "*.log" -delete
-	@find . -type d -name ".terraform" -exec rm -rf {} + 2>/dev/null || true
+    @find . -type f -name "*.tfplan*" -delete
+    @find . -type f -name "*.log" -delete
+    @find . -type d -name ".terraform" -exec rm -rf {} + 2>/dev/null || true
+
+# ============================
+# OPA / Policy-as-Code Targets
+# ============================
+
+.PHONY: install fmt check-syntax check-semantics test coverage bundle inspect server server-dev benchmark benchmark-profile verify ci
+
+OPA_VERSION ?= v1.7.1
+BUNDLE_OUT ?= bundles/bundle.tar.gz
+
+install: ## Install OPA CLI $(OPA_VERSION)
+	@which opa >/dev/null 2>&1 || {
+		printf "Installing OPA $(OPA_VERSION) ...\n";
+		curl -sSL -o /tmp/opa https://github.com/open-policy-agent/opa/releases/download/$(OPA_VERSION)/opa_linux_amd64_static && \
+		chmod 755 /tmp/opa && sudo mv /tmp/opa /usr/local/bin/opa; \
+	}
+	@opa version
+
+fmt: ## Check Rego formatting (diff only)
+	@echo "Checking policy formatting..."
+	@find policies -type f -name '*.rego' -print0 | xargs -0 -I{} sh -c 'opa fmt --diff "{}"'
+
+check-syntax: ## Validate Rego files parse and format cleanly
+	@echo "Validating policy syntax..."
+	@opa fmt -l policies | sed 's/^/Needs fmt: /' | tee /dev/stderr; test $$(opa fmt -l policies | wc -l) -eq 0
+
+check-semantics: ## Static analysis: strict checks on policies
+	@echo "Running semantic checks..."
+	@opa check policies/ --strict
+
+test: ## Run policy tests (verbose)
+	@echo "Running OPA tests..."
+	@opa test policies/ tests/ -v
+
+coverage: ## Generate coverage.json (threshold enforced in CI)
+	@echo "Generating coverage report..."
+	@opa test policies/ tests/ --coverage --format json > coverage.json
+	@jq -r '.coverage // 0' coverage.json | awk '{printf "Coverage: %s%%\n", $$1}'
+
+bundle: ## Build OPA bundle artifact
+	@echo "Building OPA bundle -> $(BUNDLE_OUT)"
+	@mkdir -p bundles
+	@opa build -b policies/ -b data/ -b .manifest -o $(BUNDLE_OUT)
+
+inspect: bundle ## Inspect compiled bundle
+	@opa inspect $(BUNDLE_OUT)
+
+server: bundle ## Start OPA server (production defaults)
+	@ENVIRONMENT=production ./scripts/opa-server.sh
+
+server-dev: ## Start OPA server with watch + console logs
+	@ENVIRONMENT=development ./scripts/opa-server.sh --build
+
+benchmark: ## Run performance benchmarks and thresholds
+	@./scripts/benchmark.sh
+
+benchmark-profile: ## Run benchmarks with CPU profiling
+	@./scripts/benchmark.sh --profile
+
+verify: ## Full local verification (fmt, check, tests, coverage, bundle)
+	@$(MAKE) fmt
+	@$(MAKE) check-semantics
+	@$(MAKE) test
+	@$(MAKE) coverage
+	@$(MAKE) bundle
+
+ci: ## Local CI run (verify + benchmark)
+	@$(MAKE) verify
+	@$(MAKE) benchmark

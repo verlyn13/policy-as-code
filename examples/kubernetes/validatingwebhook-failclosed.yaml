@@ -1,0 +1,30 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: opa-policy-webhook
+  annotations:
+    description: "OPA validating admission webhook (fail-closed)"
+webhooks:
+  - name: policy.verlyn13.dev
+    admissionReviewVersions: ["v1", "v1beta1"]
+    sideEffects: None
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    timeoutSeconds: 5
+    clientConfig:
+      service:
+        namespace: opa
+        name: opa
+        path: /v1/admit
+        port: 443
+      caBundle: ${CA_BUNDLE_BASE64}
+    rules:
+      - operations: ["CREATE", "UPDATE"]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchExpressions:
+        - key: opa-policy
+          operator: NotIn
+          values: ["disabled"]

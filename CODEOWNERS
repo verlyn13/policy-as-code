@@ -1,0 +1,30 @@
+# CODEOWNERS for Policy as Code Repository
+# This file defines who must review changes to critical policy files
+# Format: <pattern> <owner(s)>
+
+# Global owners for all files
+* @verlyn13
+
+# Critical security policies require additional review
+/policies/kubernetes/pod-security.rego @verlyn13
+/policies/terraform/validation.rego @verlyn13
+/policies/system/profile-validation.rego @verlyn13
+
+# Production configurations require careful review
+/terraform/environments/prod/ @verlyn13
+/ansible/inventories/systems.yml @verlyn13
+
+# CI/CD and enforcement configurations
+/.github/workflows/ @verlyn13
+/examples/kubernetes/*webhook*.yaml @verlyn13
+
+# Compliance and audit policies
+/policies/lib/ @verlyn13
+/config/ @verlyn13
+
+# Documentation changes can be reviewed by any maintainer
+/docs/ @verlyn13
+*.md @verlyn13
+
+# Script changes need review for security implications
+/scripts/ @verlyn13

@@ -111,10 +111,17 @@ deny contains msg if {
 	])
 }
 
+policy := {
+    "id": "terraform/validation",
+    "title": "Terraform Resource Validation",
+    "docs_url": "https://github.com/verlyn13/pac/blob/main/policies/terraform/validation.rego"
+}
+
 # Generate decision record
 decision := {
-	"allowed": allow,
-	"denials": deny,
-	"resource_count": count(input.resource_changes),
-	"timestamp": time.now_ns(),
+    "allowed": allow,
+    "policy": policy,
+    "denials": deny,
+    "resource_count": count(input.resource_changes),
+    "timestamp": time.now_ns(),
 }

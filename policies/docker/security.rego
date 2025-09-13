@@ -129,16 +129,22 @@ deny contains msg if {
 	msg := "Container must not use host network mode"
 }
 
-# Deny containers with host PID namespace
 deny contains msg if {
-	input.host_config.PidMode == "host"
-	msg := "Container must not use host PID namespace"
+    input.host_config.PidMode == "host"
+    msg := "Container must not use host PID namespace"
+}
+
+policy := {
+    "id": "docker/security",
+    "title": "Docker Security Policy",
+    "docs_url": "https://github.com/verlyn13/pac/blob/main/policies/docker/security.rego"
 }
 
 # Generate decision record
 decision := {
-	"allowed": allow,
-	"denials": deny,
-	"image": input.config.Image,
-	"timestamp": time.now_ns(),
+    "allowed": allow,
+    "policy": policy,
+    "denials": deny,
+    "image": input.config.Image,
+    "timestamp": time.now_ns(),
 }

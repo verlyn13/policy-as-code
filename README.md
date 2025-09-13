@@ -132,6 +132,12 @@ GitHub Actions workflows automatically:
 - Check policy coverage
 - Lint Rego files
 
+## Enforcement & Operations
+
+- Kubernetes admission control: use a fail-closed webhook (see `examples/kubernetes/validatingwebhook-failclosed.yaml`).
+- Staged rollout: promote signed bundles through `dev → stg → prod` with audit-only in dev.
+- Decision logs, metrics, and alerts: see `docs/OPERATIONS.md` for setup and examples.
+
 ## License
 
 [Add your license here]
