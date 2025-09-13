@@ -1,0 +1,181 @@
+---
+# Apply system profile based on host configuration
+- name: Apply System Profile Configuration
+  hosts: all
+  become: true
+  gather_facts: true
+  
+  vars:
+    profile_configs:
+      development_workstation:
+        tasks:
+          - include_role:
+              name: base-system
+          - include_role:
+              name: development-tools
+          - include_role:
+              name: ai-assistants
+          - include_role:
+              name: dotfiles
+          - include_role:
+              name: observability-client
+      
+      production_server:
+        tasks:
+          - include_role:
+              name: base-system
+          - include_role:
+              name: server-hardening
+          - include_role:
+              name: monitoring-agent
+          - include_role:
+              name: backup-client
+          - include_role:
+              name: ssl-certificates
+            when: ssl_enabled | default(false)
+      
+      staging_server:
+        tasks:
+          - include_role:
+              name: base-system
+          - include_role:
+              name: server-hardening
+          - include_role:
+              name: testing-tools
+            when: testing_tools | default(false)
+          - include_role:
+              name: monitoring-agent
+      
+      ci_agent:
+        tasks:
+          - include_role:
+              name: base-system
+          - include_role:
+              name: ci-tools
+          - include_role:
+              name: docker
+            when: docker_enabled | default(true)
+          - include_role:
+              name: buildkit
+            when: builder_type == "buildkit"
+      
+      container_runtime:
+        tasks:
+          - include_role:
+              name: container-host
+          - include_role:
+              name: "{{ container_runtime }}"
+          - include_role:
+              name: monitoring-agent
+  
+  pre_tasks:
+    - name: Validate system profile
+      assert:
+        that:
+          - system_profile is defined
+          - system_profile in profile_configs.keys()
+        fail_msg: "Invalid or missing system_profile: {{ system_profile | default('not set') }}"
+    
+    - name: Display configuration
+      debug:
+        msg: |
+          Applying profile: {{ system_profile }}
+          Environment: {{ environment }}
+          Hostname: {{ inventory_hostname }}
+          OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+    
+    - name: Create backup of current configuration
+      archive:
+        path:
+          - /etc
+          - /home/{{ ansible_user }}/.config
+        dest: "/tmp/config-backup-{{ ansible_date_time.epoch }}.tar.gz"
+      when: backup_before_apply | default(true)
+  
+  tasks:
+    - name: Apply profile-specific configuration
+      include_tasks: "{{ item }}"
+      loop: "{{ profile_configs[system_profile].tasks }}"
+  
+  post_tasks:
+    - name: Verify system configuration
+      include_role:
+        name: system-validation
+      vars:
+        validation_profile: "{{ system_profile }}"
+    
+    - name: Generate system report
+      template:
+        src: system-report.j2
+        dest: "/var/log/system-config-{{ ansible_date_time.date }}.txt"
+      
+    - name: Notify completion
+      debug:
+        msg: "System profile '{{ system_profile }}' successfully applied to {{ inventory_hostname }}"
+
+# Development workstation specific playbook
+- name: Configure Development Workstation
+  hosts: workstations
+  become: false
+  gather_facts: true
+  
+  tasks:
+    - name: Configure user environment
+      block:
+        - name: Set up shell environment
+          include_role:
+            name: shell-config
+          vars:
+            shell_type: "{{ preferred_shell | default('fish') }}"
+        
+        - name: Configure development tools
+          include_role:
+            name: "{{ item }}"
+          loop:
+            - vscode
+            - git-config
+            - mise
+          when: development_tools is defined
+        
+        - name: Set up AI tools
+          include_role:
+            name: ai-tools
+          vars:
+            tools: "{{ ai_tools | default(['codex', 'gemini', 'claude']) }}"
+          when: ai_tools is defined
+
+# Production server specific playbook
+- name: Harden Production Servers
+  hosts: production
+  become: true
+  gather_facts: true
+  
+  tasks:
+    - name: Apply security hardening
+      block:
+        - name: Configure firewall
+          include_role:
+            name: firewall
+          vars:
+            firewall_type: firewalld
+            strict_mode: true
+        
+        - name: Set up fail2ban
+          include_role:
+            name: fail2ban
+          vars:
+            jail_enabled: true
+            ban_time: 3600
+        
+        - name: Configure audit logging
+          include_role:
+            name: auditd
+          vars:
+            audit_rules: production
+        
+        - name: Apply CIS benchmarks
+          include_role:
+            name: cis-compliance
+          vars:
+            compliance_level: 2
+          when: apply_cis | default(true)

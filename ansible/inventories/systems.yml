@@ -1,0 +1,117 @@
+---
+# Ansible inventory for different system types
+all:
+  children:
+    # Development workstations
+    workstations:
+      hosts:
+        dev-fedora:
+          ansible_host: localhost
+          ansible_connection: local
+          system_profile: development_workstation
+          environment: dev
+          dotfiles_repo: https://github.com/verlyn13/dotfiles
+          ai_tools:
+            - codex
+            - gemini
+            - claude
+        
+        dev-remote:
+          ansible_host: 10.0.1.50
+          system_profile: development_workstation
+          environment: dev
+          remote_development: true
+    
+    # Production servers
+    production:
+      hosts:
+        prod-api-001:
+          ansible_host: 10.0.1.10
+          system_profile: production_server
+          environment: prod
+          server_role: api
+          monitoring_enabled: true
+          backup_enabled: true
+        
+        prod-db-001:
+          ansible_host: 10.0.1.11
+          system_profile: production_server
+          environment: prod
+          server_role: database
+          postgresql_version: 16
+          backup_strategy: wal_archive
+        
+        prod-web-001:
+          ansible_host: 10.0.1.12
+          system_profile: production_server
+          environment: prod
+          server_role: web
+          ssl_enabled: true
+    
+    # Staging servers
+    staging:
+      hosts:
+        stg-all-001:
+          ansible_host: 10.0.2.10
+          system_profile: staging_server
+          environment: stg
+          server_role: multi
+          testing_tools: true
+    
+    # CI/CD agents
+    ci_agents:
+      hosts:
+        ci-runner-001:
+          ansible_host: 10.0.3.10
+          system_profile: ci_agent
+          environment: dev
+          runner_type: github_actions
+          docker_enabled: true
+        
+        ci-builder-001:
+          ansible_host: 10.0.3.11
+          system_profile: ci_agent
+          environment: dev
+          builder_type: buildkit
+          cache_enabled: true
+    
+    # Container hosts
+    containers:
+      hosts:
+        k8s-worker-001:
+          ansible_host: 10.0.4.10
+          system_profile: container_runtime
+          environment: prod
+          container_runtime: containerd
+          orchestrator: kubernetes
+        
+        podman-host-001:
+          ansible_host: 10.0.4.20
+          system_profile: container_runtime
+          environment: prod
+          container_runtime: podman
+          rootless: true
+  
+  vars:
+    # Global variables for all hosts
+    ansible_user: ansible
+    ansible_ssh_private_key_file: ~/.ssh/ansible_key
+    ansible_python_interpreter: /usr/bin/python3
+    
+    # Common configuration
+    timezone: UTC
+    locale: en_US.UTF-8
+    
+    # Security defaults
+    ssh_port: 22
+    ssh_password_authentication: false
+    ssh_permit_root_login: false
+    
+    # Monitoring defaults
+    prometheus_port: 9090
+    grafana_port: 3000
+    loki_port: 3100
+    
+    # Backup defaults
+    backup_location: /backup
+    backup_retention_days: 30
