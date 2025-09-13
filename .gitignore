@@ -1,11 +1,32 @@
-# OPA and testing artifacts
-*.rego.test
-*.tar.gz
-bundle.tar.gz
-.opa/
-.opa_history
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfplan*
+*.terraform/
+.terraform.lock.hcl
+terraform.log
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# IDE and editor files
+# Environment files
+.env
+.env.*
+*.env
+!.envrc
+
+# Secrets
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# IDE
 .vscode/
 .idea/
 *.swp
@@ -13,49 +34,27 @@ bundle.tar.gz
 *~
 .DS_Store
 
-# Testing and coverage
-coverage/
-*.coverage
-.coverage
-htmlcov/
-
-# Environment and configuration
-.env
-.env.local
-*.env
-
-# Security - NEVER commit these
-charter-signing.pem
-*.pem.b64
-private-*.pem
-*-private.pem
-*-signing.pem
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-*.log
-
-# Build artifacts
-build/
-dist/
-out/
-
-# Node.js (if using JS tooling)
-node_modules/
-package-lock.json
-yarn.lock
-
-# Python (if using Python tooling)
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 .Python
 venv/
-env/
 .venv/
 
-# Documentation build
-docs/_build/
-site/
+# Logs
+*.log
+logs/
+
+# Backup files
+*.backup
+*.bak
+*.tmp
+
+# OPA bundles
+bundles/*.tar.gz
+bundles/*.tar
+
+# Test outputs
+test-results/
+coverage/

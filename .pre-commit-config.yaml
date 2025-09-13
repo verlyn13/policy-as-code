@@ -1,0 +1,40 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.96.0
+    hooks:
+      - id: terraform_fmt
+        args: ['--args=-recursive']
+      
+      - id: terraform_validate
+        args:
+          - --args=-json
+          - --args=-no-color
+          - --tf-init-args=-upgrade
+      
+      - id: terraform_tflint
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
+      
+      - id: terraform_tfsec
+        args:
+          - --args=--minimum-severity=HIGH
+          - --args=--exclude-path=.terraform
+      
+      - id: terraform_docs
+        args:
+          - --args=--config=.terraform-docs.yml
+          - --args=--output-file=README.md
+
+  - repo: local
+    hooks:
+      - id: check-ephemeral-usage
+        name: Verify ephemeral resource usage
+        entry: scripts/check-ephemeral.sh
+        language: script
+        files: \.tf$
+        
+      - id: validate-naming
+        name: Validate resource naming
+        entry: scripts/validate-naming.py
+        language: python
+        files: \.tf$
