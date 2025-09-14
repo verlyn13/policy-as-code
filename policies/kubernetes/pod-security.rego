@@ -1,6 +1,7 @@
 package kubernetes.admission
 
 import data.lib.common
+import data.lib.errors
 import future.keywords.contains
 import future.keywords.if
 import future.keywords.in
@@ -38,49 +39,57 @@ decision := {
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.securityContext.runAsNonRoot
-	msg := sprintf("Container '%s' must run as non-root user", [container.name])
+    container := input.spec.containers[_]
+    not container.securityContext.runAsNonRoot
+    base := sprintf("Container '%s' must run as non-root user", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	container.securityContext.privileged
-	msg := sprintf("Container '%s' must not run in privileged mode", [container.name])
+    container := input.spec.containers[_]
+    container.securityContext.privileged
+    base := sprintf("Container '%s' must not run in privileged mode", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	container.securityContext.allowPrivilegeEscalation
-	msg := sprintf("Container '%s' must not allow privilege escalation", [container.name])
+    container := input.spec.containers[_]
+    container.securityContext.allowPrivilegeEscalation
+    base := sprintf("Container '%s' must not allow privilege escalation", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.securityContext.readOnlyRootFilesystem
-	msg := sprintf("Container '%s' should have a read-only root filesystem", [container.name])
+    container := input.spec.containers[_]
+    not container.securityContext.readOnlyRootFilesystem
+    base := sprintf("Container '%s' should have a read-only root filesystem", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.resources.limits.memory
-	msg := sprintf("Container '%s' must specify memory limits", [container.name])
+    container := input.spec.containers[_]
+    not container.resources.limits.memory
+    base := sprintf("Container '%s' must specify memory limits", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.resources.limits.cpu
-	msg := sprintf("Container '%s' must specify CPU limits", [container.name])
+    container := input.spec.containers[_]
+    not container.resources.limits.cpu
+    base := sprintf("Container '%s' must specify CPU limits", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.livenessProbe
-	msg := sprintf("Container '%s' should have a liveness probe", [container.name])
+    container := input.spec.containers[_]
+    not container.livenessProbe
+    base := sprintf("Container '%s' should have a liveness probe", [container.name])
+    msg := errors.format(policy, base)
 }
 
 violation contains msg if {
-	container := input.spec.containers[_]
-	not container.readinessProbe
-	msg := sprintf("Container '%s' should have a readiness probe", [container.name])
+    container := input.spec.containers[_]
+    not container.readinessProbe
+    base := sprintf("Container '%s' should have a readiness probe", [container.name])
+    msg := errors.format(policy, base)
 }

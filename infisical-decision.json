@@ -1,0 +1,23 @@
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "allowed": true,
+            "denials": [],
+            "timestamp": 1757810453734915754,
+            "warnings": [
+              "Bootstrap IP allowlist is broad for token-service@journal-prod; tighten before prod cutover"
+            ]
+          },
+          "text": "data.infisical.intent.decision",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}

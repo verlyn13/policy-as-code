@@ -1,0 +1,10 @@
+apiVersion: infisical.io/v1
+kind: MachineIdentity
+metadata:
+  name: rotator
+  namespace: infisical-journal
+spec:
+  type: security-ops-prj
+  environment: prod
+  project: journal
+  description: "Machine identity for rotator"

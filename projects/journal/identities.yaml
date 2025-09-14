@@ -1,0 +1,178 @@
+identities:
+  - name: token-service@journal-prod
+    env: prod
+    project_role: runtime
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 3600
+        access_token_max_ttl_seconds: 3600
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["0.0.0.0/0","::/0"]
+        access_token_trusted_ips:  ["0.0.0.0/0","::/0"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/jwt/public_jwks"]
+      write_paths: []
+
+  - name: rotator@ops-prod
+    env: prod
+    project_role: security-ops-prj
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 1200
+        access_token_max_ttl_seconds: 1200
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["<bastion-egress>/32"]
+        access_token_trusted_ips:  ["<bastion-egress>/32"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*"]
+      write_paths: ["/auth/jwt/*","/auth/aes/*"]
+    controls:
+      change_request_required: true
+      validity_window_hours: 24
+
+  - name: ci@github-prod
+    env: prod
+    project_role: ci
+    auth:
+      oidc:
+        enabled: true
+        discovery_url: "https://token.actions.githubusercontent.com"
+        issuer:        "https://token.actions.githubusercontent.com"
+        subjects:
+          - "repo:<owner>/<repo>:ref:refs/heads/main"
+        audiences: ["<copy-from-sample-gh-aud>"]
+        access_token_ttl_seconds: 1800
+      token_auth:
+        enabled: true
+        access_token_ttl_seconds: 1800
+        access_token_max_ttl_seconds: 1800
+        access_token_max_uses: 0
+        trusted_ips: ["0.0.0.0/0","::/0"]
+      universal_auth: { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/oauth/*","/auth/jwt/public_jwks"]
+      write_paths: []
+
+  - name: token-service@journal-staging
+    env: staging
+    project_role: runtime
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 3600
+        access_token_max_ttl_seconds: 3600
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["0.0.0.0/0","::/0"]
+        access_token_trusted_ips:  ["0.0.0.0/0","::/0"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/jwt/public_jwks"]
+      write_paths: []
+
+  - name: rotator@ops-staging
+    env: staging
+    project_role: security-ops-prj
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 1200
+        access_token_max_ttl_seconds: 1200
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["0.0.0.0/0","::/0"]
+        access_token_trusted_ips:  ["0.0.0.0/0","::/0"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*"]
+      write_paths: ["/auth/jwt/*","/auth/aes/*"]
+
+  - name: ci@github-staging
+    env: staging
+    project_role: ci
+    auth:
+      oidc:
+        enabled: true
+        discovery_url: "https://token.actions.githubusercontent.com"
+        issuer:        "https://token.actions.githubusercontent.com"
+        subjects: ["repo:<owner>/<repo>:ref:refs/heads/main"]
+        audiences: ["<copy-from-sample-gh-aud>"]
+        access_token_ttl_seconds: 1800
+      token_auth:
+        enabled: true
+        access_token_ttl_seconds: 1800
+        access_token_max_ttl_seconds: 1800
+        access_token_max_uses: 0
+        trusted_ips: ["0.0.0.0/0","::/0"]
+      universal_auth: { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/oauth/*","/auth/jwt/public_jwks"]
+      write_paths: []
+
+  - name: token-service@journal-dev
+    env: dev
+    project_role: runtime
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 3600
+        access_token_max_ttl_seconds: 3600
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["0.0.0.0/0","::/0"]
+        access_token_trusted_ips:  ["0.0.0.0/0","::/0"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/jwt/public_jwks"]
+      write_paths: []
+
+  - name: rotator@ops-dev
+    env: dev
+    project_role: security-ops-prj
+    auth:
+      universal_auth:
+        enabled: true
+        access_token_ttl_seconds: 1200
+        access_token_max_ttl_seconds: 1200
+        access_token_max_uses: 0
+        access_token_period_seconds: 0
+        client_secret_trusted_ips: ["0.0.0.0/0","::/0"]
+        access_token_trusted_ips:  ["0.0.0.0/0","::/0"]
+      token_auth: { enabled: false }
+      oidc:       { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*"]
+      write_paths: ["/auth/jwt/*","/auth/aes/*"]
+
+  - name: ci@github-dev
+    env: dev
+    project_role: ci
+    auth:
+      oidc:
+        enabled: true
+        discovery_url: "https://token.actions.githubusercontent.com"
+        issuer:        "https://token.actions.githubusercontent.com"
+        subjects: ["repo:<owner>/<repo>:ref:refs/heads/main"]
+        audiences: ["<copy-from-sample-gh-aud>"]
+        access_token_ttl_seconds: 1800
+      token_auth:
+        enabled: true
+        access_token_ttl_seconds: 1800
+        access_token_max_ttl_seconds: 1800
+        access_token_max_uses: 0
+        trusted_ips: ["0.0.0.0/0","::/0"]
+      universal_auth: { enabled: false }
+    permissions:
+      read_paths:  ["/auth/jwt/*","/auth/aes/*","/auth/oauth/*","/auth/jwt/public_jwks"]
+      write_paths: []

@@ -132,6 +132,10 @@ GitHub Actions workflows automatically:
 - Check policy coverage
 - Lint Rego files
 
+## Infisical Management
+
+See `docs/INFISICAL.md` for Terraform modules, provider setup, and OPA enforcement specific to Infisical org/project configuration.
+
 ## Enforcement & Operations
 
 - Kubernetes admission control: use a fail-closed webhook (see `examples/kubernetes/validatingwebhook-failclosed.yaml`).

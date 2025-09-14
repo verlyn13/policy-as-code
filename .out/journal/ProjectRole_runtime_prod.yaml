@@ -1,0 +1,13 @@
+apiVersion: infisical.io/v1
+kind: ProjectRole
+metadata:
+  name: runtime
+  namespace: infisical-journal
+  environment: prod
+spec:
+  description: "Generated role for runtime in prod"
+  permissions:
+    - resource: secrets
+      action: read
+      conditions:
+        environment: prod

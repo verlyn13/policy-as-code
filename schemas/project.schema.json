@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Infisical Project Configuration",
+  "type": "object",
+  "required": ["project_slug", "project_id", "description", "environments"],
+  "properties": {
+    "project_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Project identifier slug"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{24}$",
+      "description": "MongoDB ObjectId for the project"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200
+    },
+    "environments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "name"],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "enum": ["dev", "stg", "prod"]
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "auto_capitalization": {
+          "type": "boolean"
+        },
+        "e2ee_enabled": {
+          "type": "boolean"
+        },
+        "audit_logs_retention_days": {
+          "type": "integer",
+          "minimum": 7,
+          "maximum": 365
+        }
+      }
+    }
+  }
+}

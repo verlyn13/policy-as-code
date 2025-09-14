@@ -1,0 +1,2340 @@
+{
+  "files": {
+    "policies/charter/article_i/integrity.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 33
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 37
+          }
+        },
+        {
+          "start": {
+            "row": 42
+          },
+          "end": {
+            "row": 42
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 21
+          }
+        },
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 28
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 43
+          },
+          "end": {
+            "row": 43
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        }
+      ],
+      "covered_lines": 10,
+      "not_covered_lines": 9,
+      "coverage": 52.63157894736842
+    },
+    "policies/charter/article_ii/capital.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 33
+          },
+          "end": {
+            "row": 33
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 42
+          },
+          "end": {
+            "row": 47
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 32
+          },
+          "end": {
+            "row": 32
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 37
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 50
+          },
+          "end": {
+            "row": 50
+          }
+        }
+      ],
+      "covered_lines": 17,
+      "not_covered_lines": 8,
+      "coverage": 68
+    },
+    "policies/charter/article_iii/entity.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 21
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 43
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 25
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 28
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 37
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        }
+      ],
+      "covered_lines": 13,
+      "not_covered_lines": 7,
+      "coverage": 65
+    },
+    "policies/docker/security.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 21
+          }
+        },
+        {
+          "start": {
+            "row": 25
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 33
+          },
+          "end": {
+            "row": 33
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 57
+          }
+        },
+        {
+          "start": {
+            "row": 60
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 67
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 73
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 83
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 91
+          }
+        },
+        {
+          "start": {
+            "row": 95
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 103
+          },
+          "end": {
+            "row": 106
+          }
+        },
+        {
+          "start": {
+            "row": 110
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 115
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 123
+          }
+        },
+        {
+          "start": {
+            "row": 127
+          },
+          "end": {
+            "row": 129
+          }
+        },
+        {
+          "start": {
+            "row": 132
+          },
+          "end": {
+            "row": 134
+          }
+        },
+        {
+          "start": {
+            "row": 137
+          },
+          "end": {
+            "row": 137
+          }
+        },
+        {
+          "start": {
+            "row": 144
+          },
+          "end": {
+            "row": 144
+          }
+        }
+      ],
+      "not_covered_lines": 56
+    },
+    "policies/infisical/intent.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 12
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 49
+          },
+          "end": {
+            "row": 53
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 69
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 9
+          }
+        },
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 16
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 35
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 48
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 54
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 57
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 65
+          }
+        },
+        {
+          "start": {
+            "row": 70
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 74
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 88
+          },
+          "end": {
+            "row": 88
+          }
+        }
+      ],
+      "covered_lines": 29,
+      "not_covered_lines": 25,
+      "coverage": 53.7037037037037
+    },
+    "policies/kubernetes/pod-security.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 52
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 59
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 66
+          }
+        },
+        {
+          "start": {
+            "row": 69
+          },
+          "end": {
+            "row": 73
+          }
+        },
+        {
+          "start": {
+            "row": 76
+          },
+          "end": {
+            "row": 80
+          }
+        },
+        {
+          "start": {
+            "row": 83
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 90
+          },
+          "end": {
+            "row": 94
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 33
+          },
+          "end": {
+            "row": 33
+          }
+        }
+      ],
+      "covered_lines": 44,
+      "not_covered_lines": 1,
+      "coverage": 97.77777777777777
+    },
+    "policies/lib/common.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 47
+          }
+        },
+        {
+          "start": {
+            "row": 50
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 67
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 72
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 77
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 81
+          }
+        },
+        {
+          "start": {
+            "row": 83
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 99
+          },
+          "end": {
+            "row": 104
+          }
+        }
+      ],
+      "not_covered_lines": 48
+    },
+    "policies/lib/errors.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 10
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 14
+          },
+          "end": {
+            "row": 15
+          }
+        }
+      ],
+      "covered_lines": 5,
+      "not_covered_lines": 2,
+      "coverage": 71.42857142857143
+    },
+    "policies/lib/kubernetes.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 40
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 49
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 57
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 64
+          }
+        },
+        {
+          "start": {
+            "row": 68
+          },
+          "end": {
+            "row": 73
+          }
+        },
+        {
+          "start": {
+            "row": 76
+          },
+          "end": {
+            "row": 77
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 80
+          }
+        },
+        {
+          "start": {
+            "row": 84
+          },
+          "end": {
+            "row": 84
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 91
+          },
+          "end": {
+            "row": 96
+          }
+        },
+        {
+          "start": {
+            "row": 100
+          },
+          "end": {
+            "row": 103
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 112
+          },
+          "end": {
+            "row": 113
+          }
+        }
+      ],
+      "not_covered_lines": 54
+    },
+    "policies/supabase/project.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 19
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 40
+          }
+        },
+        {
+          "start": {
+            "row": 42
+          },
+          "end": {
+            "row": 43
+          }
+        },
+        {
+          "start": {
+            "row": 47
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 52
+          },
+          "end": {
+            "row": 54
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 60
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 63
+          },
+          "end": {
+            "row": 63
+          }
+        }
+      ],
+      "covered_lines": 16,
+      "not_covered_lines": 2,
+      "coverage": 88.88888888888889
+    },
+    "policies/system/profile-validation.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 57
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 64
+          }
+        },
+        {
+          "start": {
+            "row": 69
+          },
+          "end": {
+            "row": 73
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 81
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 94
+          },
+          "end": {
+            "row": 97
+          }
+        },
+        {
+          "start": {
+            "row": 100
+          },
+          "end": {
+            "row": 103
+          }
+        },
+        {
+          "start": {
+            "row": 106
+          },
+          "end": {
+            "row": 109
+          }
+        },
+        {
+          "start": {
+            "row": 113
+          },
+          "end": {
+            "row": 116
+          }
+        },
+        {
+          "start": {
+            "row": 119
+          },
+          "end": {
+            "row": 122
+          }
+        },
+        {
+          "start": {
+            "row": 126
+          },
+          "end": {
+            "row": 129
+          }
+        },
+        {
+          "start": {
+            "row": 133
+          },
+          "end": {
+            "row": 136
+          }
+        },
+        {
+          "start": {
+            "row": 139
+          },
+          "end": {
+            "row": 142
+          }
+        },
+        {
+          "start": {
+            "row": 146
+          },
+          "end": {
+            "row": 149
+          }
+        },
+        {
+          "start": {
+            "row": 152
+          },
+          "end": {
+            "row": 155
+          }
+        },
+        {
+          "start": {
+            "row": 159
+          },
+          "end": {
+            "row": 163
+          }
+        },
+        {
+          "start": {
+            "row": 167
+          },
+          "end": {
+            "row": 170
+          }
+        },
+        {
+          "start": {
+            "row": 173
+          },
+          "end": {
+            "row": 176
+          }
+        },
+        {
+          "start": {
+            "row": 180
+          },
+          "end": {
+            "row": 183
+          }
+        },
+        {
+          "start": {
+            "row": 186
+          },
+          "end": {
+            "row": 189
+          }
+        },
+        {
+          "start": {
+            "row": 193
+          },
+          "end": {
+            "row": 196
+          }
+        },
+        {
+          "start": {
+            "row": 200
+          },
+          "end": {
+            "row": 202
+          }
+        },
+        {
+          "start": {
+            "row": 206
+          },
+          "end": {
+            "row": 206
+          }
+        },
+        {
+          "start": {
+            "row": 208
+          },
+          "end": {
+            "row": 210
+          }
+        },
+        {
+          "start": {
+            "row": 214
+          },
+          "end": {
+            "row": 217
+          }
+        },
+        {
+          "start": {
+            "row": 222
+          },
+          "end": {
+            "row": 225
+          }
+        },
+        {
+          "start": {
+            "row": 229
+          },
+          "end": {
+            "row": 230
+          }
+        },
+        {
+          "start": {
+            "row": 233
+          },
+          "end": {
+            "row": 234
+          }
+        },
+        {
+          "start": {
+            "row": 237
+          },
+          "end": {
+            "row": 238
+          }
+        }
+      ],
+      "not_covered_lines": 109
+    },
+    "policies/terraform/infisical.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 21
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 43
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 59
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 67
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 77
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 87
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 35
+          }
+        },
+        {
+          "start": {
+            "row": 91
+          },
+          "end": {
+            "row": 91
+          }
+        }
+      ],
+      "covered_lines": 46,
+      "not_covered_lines": 3,
+      "coverage": 93.87755102040816
+    },
+    "policies/terraform/validation.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 19
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 33
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 53
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 60
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 69
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 81
+          }
+        },
+        {
+          "start": {
+            "row": 83
+          },
+          "end": {
+            "row": 83
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 90
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 92
+          }
+        },
+        {
+          "start": {
+            "row": 96
+          },
+          "end": {
+            "row": 99
+          }
+        },
+        {
+          "start": {
+            "row": 101
+          },
+          "end": {
+            "row": 101
+          }
+        },
+        {
+          "start": {
+            "row": 106
+          },
+          "end": {
+            "row": 106
+          }
+        },
+        {
+          "start": {
+            "row": 108
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 121
+          }
+        }
+      ],
+      "not_covered_lines": 48
+    },
+    "policies/vercel/app.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 19
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 48
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 59
+          }
+        },
+        {
+          "start": {
+            "row": 62
+          },
+          "end": {
+            "row": 67
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 81
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 84
+          },
+          "end": {
+            "row": 84
+          }
+        }
+      ],
+      "covered_lines": 26,
+      "not_covered_lines": 2,
+      "coverage": 92.85714285714286
+    },
+    "tests/charter/article_i/integrity_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 5
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 14
+          },
+          "end": {
+            "row": 15
+          }
+        }
+      ],
+      "covered_lines": 5,
+      "coverage": 100
+    },
+    "tests/charter/article_ii/capital_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 3
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "covered_lines": 4,
+      "coverage": 100
+    },
+    "tests/charter/article_iii/entity_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 3
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 7
+          },
+          "end": {
+            "row": 8
+          }
+        }
+      ],
+      "covered_lines": 4,
+      "coverage": 100
+    },
+    "tests/infisical/intent_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 8
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 29
+          }
+        }
+      ],
+      "covered_lines": 4,
+      "coverage": 100
+    },
+    "tests/kubernetes/parameterized_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 9
+          }
+        },
+        {
+          "start": {
+            "row": 50
+          },
+          "end": {
+            "row": 52
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 60
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 67
+          }
+        },
+        {
+          "start": {
+            "row": 109
+          },
+          "end": {
+            "row": 109
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 111
+          }
+        },
+        {
+          "start": {
+            "row": 118
+          },
+          "end": {
+            "row": 120
+          }
+        },
+        {
+          "start": {
+            "row": 122
+          },
+          "end": {
+            "row": 122
+          }
+        }
+      ],
+      "covered_lines": 18,
+      "coverage": 100
+    },
+    "tests/kubernetes/pod-security_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 5
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 40
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 101
+          },
+          "end": {
+            "row": 102
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        }
+      ],
+      "covered_lines": 9,
+      "coverage": 100
+    },
+    "tests/supabase/project_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 14
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 29
+          }
+        }
+      ],
+      "covered_lines": 8,
+      "coverage": 100
+    },
+    "tests/terraform/infisical_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 69
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 76
+          }
+        }
+      ],
+      "covered_lines": 8,
+      "coverage": 100
+    },
+    "tests/test_framework.rego": {
+      "not_covered": [
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 98
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 115
+          }
+        },
+        {
+          "start": {
+            "row": 118
+          },
+          "end": {
+            "row": 120
+          }
+        },
+        {
+          "start": {
+            "row": 123
+          },
+          "end": {
+            "row": 124
+          }
+        },
+        {
+          "start": {
+            "row": 126
+          },
+          "end": {
+            "row": 126
+          }
+        }
+      ],
+      "not_covered_lines": 32
+    },
+    "tests/vercel/app_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 42
+          }
+        }
+      ],
+      "covered_lines": 8,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 274,
+  "not_covered_lines": 406,
+  "coverage": 40.294117647058826
+}

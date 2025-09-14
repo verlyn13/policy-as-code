@@ -1,0 +1,13 @@
+apiVersion: infisical.io/v1
+kind: ProjectRole
+metadata:
+  name: runtime
+  namespace: infisical-journal
+  environment: stg
+spec:
+  description: "Generated role for runtime in stg"
+  permissions:
+    - resource: secrets
+      action: read
+      conditions:
+        environment: stg

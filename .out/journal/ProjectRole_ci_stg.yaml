@@ -1,0 +1,13 @@
+apiVersion: infisical.io/v1
+kind: ProjectRole
+metadata:
+  name: ci
+  namespace: infisical-journal
+  environment: stg
+spec:
+  description: "Generated role for ci in stg"
+  permissions:
+    - resource: secrets
+      action: read
+      conditions:
+        environment: stg

@@ -1,0 +1,44 @@
+{
+  "allowed": true,
+  "artifacts": {
+    "infisical": {
+      "bindings": [
+        ".out/journal/binding_token-service@journal-prod.yaml",
+        ".out/journal/binding_rotator@ops-prod.yaml",
+        ".out/journal/binding_ci@github-prod.yaml",
+        ".out/journal/binding_token-service@journal-staging.yaml",
+        ".out/journal/binding_rotator@ops-staging.yaml",
+        ".out/journal/binding_ci@github-staging.yaml",
+        ".out/journal/binding_token-service@journal-dev.yaml",
+        ".out/journal/binding_rotator@ops-dev.yaml",
+        ".out/journal/binding_ci@github-dev.yaml"
+      ],
+      "machine_identities": [
+        ".out/journal/identity_token-service@journal-prod.yaml",
+        ".out/journal/identity_rotator@ops-prod.yaml",
+        ".out/journal/identity_ci@github-prod.yaml",
+        ".out/journal/identity_token-service@journal-staging.yaml",
+        ".out/journal/identity_rotator@ops-staging.yaml",
+        ".out/journal/identity_ci@github-staging.yaml",
+        ".out/journal/identity_token-service@journal-dev.yaml",
+        ".out/journal/identity_rotator@ops-dev.yaml",
+        ".out/journal/identity_ci@github-dev.yaml"
+      ],
+      "project_roles": [
+        ".out/journal/ProjectRole_runtime.yaml",
+        ".out/journal/ProjectRole_ci.yaml",
+        ".out/journal/ProjectRole_security-ops-prj.yaml"
+      ]
+    },
+    "platforms": {
+      "supabase_manifest": ".out/journal/supabase-config.json",
+      "vercel_manifest": ".out/journal/vercel-env.json"
+    }
+  },
+  "denies": [],
+  "project_id": "d01f583a-d833-4375-b359-c702a726ac4d",
+  "project_slug": "journal-j-mns",
+  "warnings": [
+    "Bootstrap IP allowlist is broad for token-service@journal-prod; tighten before prod cutover"
+  ]
+}

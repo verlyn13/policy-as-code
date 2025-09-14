@@ -1,0 +1,11 @@
+apiVersion: infisical.io/v1
+kind: IdentityBinding
+metadata:
+  name: github-actions-ci-binding
+  namespace: infisical-journal
+spec:
+  identity: github-actions
+  role: ci
+  environment: stg
+  paths: ['/auth/jwt/public_jwks']
+  ttl: 3600

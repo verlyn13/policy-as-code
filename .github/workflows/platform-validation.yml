@@ -1,0 +1,222 @@
+name: Platform & Intent Validation
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'projects/**'
+      - 'data/**'
+      - 'policies/**'
+      - 'schemas/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'projects/**'
+      - 'data/**'
+      - 'policies/**'
+      - 'schemas/**'
+
+env:
+  OPA_VERSION: v1.7.1
+
+jobs:
+  drift-check:
+    name: Check Project/Data Drift
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: ${{ env.OPA_VERSION }}
+    
+    - name: Check for drift
+      run: |
+        echo "Checking for drift between projects/ and data/ directories..."
+        make drift-check || {
+          echo "❌ DRIFT DETECTED: projects/ and data/ are out of sync"
+          echo "Run 'make sync-data' locally to update data/ from projects/"
+          exit 1
+        }
+    
+    - name: Report status
+      if: success()
+      run: echo "✅ No drift detected - projects/ and data/ are in sync"
+
+  infisical-validation:
+    name: Validate Infisical Intents
+    runs-on: ubuntu-latest
+    needs: drift-check
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: ${{ env.OPA_VERSION }}
+    
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+    
+    - name: Validate Infisical intents
+      id: validate
+      run: |
+        echo "Validating Infisical intents..."
+        make infisical-validate | tee validation.log
+        
+        # Extract warnings
+        warnings=$(jq -r '.result[0].expressions[0].value.warnings[]?' infisical-decision.json 2>/dev/null || echo "")
+        
+        if [ -n "$warnings" ]; then
+          echo "## ⚠️ Infisical Intent Warnings" >> $GITHUB_STEP_SUMMARY
+          echo "$warnings" | while read -r warning; do
+            echo "- $warning" >> $GITHUB_STEP_SUMMARY
+          done
+        fi
+        
+        # Check if allowed
+        allowed=$(jq -r '.result[0].expressions[0].value.allowed' infisical-decision.json)
+        if [ "$allowed" != "true" ]; then
+          echo "❌ Infisical intents validation FAILED" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        fi
+        
+        echo "✅ Infisical intents validation PASSED" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Upload validation results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: infisical-validation
+        path: infisical-decision.json
+
+  platform-validation:
+    name: Validate Platform Configs
+    runs-on: ubuntu-latest
+    needs: drift-check
+    strategy:
+      matrix:
+        platform: [vercel, supabase]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: ${{ env.OPA_VERSION }}
+    
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+    
+    - name: Validate ${{ matrix.platform }} configs
+      run: |
+        echo "Validating ${{ matrix.platform }} platform configs..."
+        make platform-validate-${{ matrix.platform }}
+        echo "✅ ${{ matrix.platform }} configs are valid" >> $GITHUB_STEP_SUMMARY
+
+  generate-decision:
+    name: Generate Decision Contract
+    runs-on: ubuntu-latest
+    needs: [infisical-validation, platform-validation]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: ${{ env.OPA_VERSION }}
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y jq yq
+    
+    - name: Generate decision contract
+      run: |
+        echo "Generating decision contract..."
+        make decision
+        
+        # Summary
+        echo "## 📋 Decision Contract" >> $GITHUB_STEP_SUMMARY
+        echo "```json" >> $GITHUB_STEP_SUMMARY
+        jq '.' .out/journal/decision.json | head -40 >> $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Generate artifacts
+      run: |
+        echo "Generating artifact files..."
+        ./scripts/generate-artifacts.sh journal
+        
+        # List generated artifacts
+        echo "## 📦 Generated Artifacts" >> $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
+        find .out/journal -type f -name "*.yaml" -o -name "*.json" | sort >> $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Upload decision artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: decision-artifacts
+        path: .out/journal/
+
+  schema-validation:
+    name: Validate YAML/JSON Schemas
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install schema validator
+      run: |
+        pip install jsonschema pyyaml
+    
+    - name: Validate project schemas
+      run: |
+        echo "Validating project YAML against schemas..."
+        python scripts/validate-schemas.py
+        echo "✅ All YAML/JSON files pass schema validation" >> $GITHUB_STEP_SUMMARY
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [drift-check, infisical-validation, platform-validation, generate-decision]
+    if: always()
+    
+    steps:
+    - name: Summary
+      run: |
+        echo "# Policy Validation Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ needs.drift-check.result }}" == "success" ]; then
+          echo "✅ **Drift Check**: No drift detected" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ **Drift Check**: Failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ "${{ needs.infisical-validation.result }}" == "success" ]; then
+          echo "✅ **Infisical Validation**: Passed" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ **Infisical Validation**: Failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ "${{ needs.platform-validation.result }}" == "success" ]; then
+          echo "✅ **Platform Validation**: All platforms valid" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ **Platform Validation**: Failed" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if [ "${{ needs.generate-decision.result }}" == "success" ]; then
+          echo "✅ **Decision Contract**: Generated successfully" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ **Decision Contract**: Failed to generate" >> $GITHUB_STEP_SUMMARY
+        fi

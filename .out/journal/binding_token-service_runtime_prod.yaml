@@ -1,0 +1,11 @@
+apiVersion: infisical.io/v1
+kind: IdentityBinding
+metadata:
+  name: token-service-runtime-binding
+  namespace: infisical-journal
+spec:
+  identity: token-service
+  role: runtime
+  environment: prod
+  paths: ['/auth/jwt/*', '/auth/aes/*']
+  ttl: 3600

@@ -1,0 +1,10 @@
+apiVersion: infisical.io/v1
+kind: MachineIdentity
+metadata:
+  name: token-service
+  namespace: infisical-journal
+spec:
+  type: runtime
+  environment: stg
+  project: journal
+  description: "Machine identity for token-service"

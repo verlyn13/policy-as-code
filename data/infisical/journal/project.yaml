@@ -1,0 +1,68 @@
+meta:
+  project:
+    name: journal
+    slug: journal-j-mns
+    id: d01f583a-d833-4375-b359-c702a726ac4d
+  server:
+    url: https://secrets.jefahnierocks.com
+  canonical_paths:
+    - /auth/jwt/*
+    - /auth/aes/*
+    - /auth/oauth/*
+    - /auth/jwt/public_jwks
+
+environments:
+  - name: dev
+    slug: dev
+  - name: staging
+    slug: staging
+  - name: production
+    slug: prod
+
+project_roles:
+  - name: Runtime
+    slug: runtime
+    description: "App runtime: read-only; no project admin."
+    permissions:
+      read_secrets: true
+      write_secrets: false
+      delete_secrets: false
+      read_secret_versions: true
+      manage_project_settings: false
+      manage_service_tokens: false
+      manage_machine_identities: false
+      manage_environments: false
+      manage_roles: false
+      manage_integrations_webhooks: false
+      view_audit_logs: false
+  - name: CI
+    slug: ci
+    description: "CI pipelines: read-only; no project admin."
+    permissions:
+      read_secrets: true
+      write_secrets: false
+      delete_secrets: false
+      read_secret_versions: true
+      manage_project_settings: false
+      manage_service_tokens: false
+      manage_machine_identities: false
+      manage_environments: false
+      manage_roles: false
+      manage_integrations_webhooks: false
+      view_audit_logs: false
+  - name: Security Ops
+    slug: security-ops-prj
+    description: "Controlled key rotation under CR; writes allowed."
+    permissions:
+      read_secrets: true
+      write_secrets: true
+      delete_secrets: false
+      read_secret_versions: true
+      manage_project_settings: false
+      manage_service_tokens: false
+      manage_machine_identities: false
+      manage_environments: false
+      manage_roles: false
+      manage_integrations_webhooks: false
+      view_audit_logs: true
+

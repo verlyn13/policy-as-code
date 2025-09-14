@@ -50,9 +50,9 @@ test-dr: ## Test disaster recovery procedure
 	@./scripts/test-disaster-recovery.sh
 
 clean: ## Clean up temporary files
-    @find . -type f -name "*.tfplan*" -delete
-    @find . -type f -name "*.log" -delete
-    @find . -type d -name ".terraform" -exec rm -rf {} + 2>/dev/null || true
+	@find . -type f -name "*.tfplan*" -delete
+	@find . -type f -name "*.log" -delete
+	@find . -type d -name ".terraform" -exec rm -rf {} + 2>/dev/null || true
 
 # ============================
 # OPA / Policy-as-Code Targets
@@ -122,3 +122,30 @@ verify: ## Full local verification (fmt, check, tests, coverage, bundle)
 ci: ## Local CI run (verify + benchmark)
 	@$(MAKE) verify
 	@$(MAKE) benchmark
+
+infisical-validate: ## Evaluate Infisical intents (journal) and print decision
+	@echo "Validating Infisical intents..."
+	@opa eval -d policies/infisical/ -d data/ 'data.infisical.intent.decision' -f json | tee infisical-decision.json
+	@jq -e '.result[0].expressions[0].value.allowed == true' infisical-decision.json >/dev/null || { echo "Infisical intents failed policy"; exit 1; }
+
+platform-validate-vercel: ## Validate Vercel configs under data/platforms/vercel
+	@set -e; for f in $$(find data/platforms/vercel -type f -name '*.yaml' -o -name '*.json'); do \
+		echo "Validating Vercel: $$f"; \
+		opa eval -d policies/vercel -i $$f 'data.vercel.app.decision' -f json | jq -e '.result[0].expressions[0].value.allowed == true' >/dev/null || { echo "Vercel policy failed for $$f"; exit 1; }; \
+	done; echo "✓ Vercel platform configs valid"
+
+platform-validate-supabase: ## Validate Supabase configs under data/platforms/supabase
+	@set -e; for f in $$(find data/platforms/supabase -type f -name '*.yaml' -o -name '*.json'); do \
+		echo "Validating Supabase: $$f"; \
+		opa eval -d policies/supabase -i $$f 'data.supabase.project.decision' -f json | jq -e '.result[0].expressions[0].value.allowed == true' >/dev/null || { echo "Supabase policy failed for $$f"; exit 1; }; \
+	done; echo "✓ Supabase platform configs valid"
+
+platform-validate: platform-validate-vercel platform-validate-supabase ## Validate all platform configs
+
+decision: ## Emit project decision JSON for journal to .out/journal/decision.json
+	@mkdir -p .out/journal
+	@opa eval -d policies/ -d data/ 'data.decision.journal.contract' -f json | jq -r '.result[0].expressions[0].value' > .out/journal/decision.json
+	@echo "Wrote .out/journal/decision.json" && jq '.' .out/journal/decision.json | sed -n '1,40p'
+
+drift-check: ## Ensure projects/ and data/ mirrors are in sync for journal
+	@opa eval -d policies/ -d data/ -d projects/ 'data.infisical.drift.decision' -f json | jq -e '.result[0].expressions[0].value.allowed == true' >/dev/null || { echo "Drift detected between projects/ and data/"; exit 1; }

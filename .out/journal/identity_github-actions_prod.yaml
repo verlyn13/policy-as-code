@@ -1,0 +1,10 @@
+apiVersion: infisical.io/v1
+kind: MachineIdentity
+metadata:
+  name: github-actions
+  namespace: infisical-journal
+spec:
+  type: ci
+  environment: prod
+  project: journal
+  description: "Machine identity for github-actions"
