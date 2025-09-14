@@ -1,0 +1,14 @@
+apiVersion: "infisical.verlyn13.dev/v1"
+kind: "ProjectBinding"
+metadata:
+  identity: "token-service@journal-prod"
+  environment: "prod"
+spec:
+  project_role: "runtime"
+  permissions:
+    read_paths:
+      - "/auth/jwt/*"
+      - "/auth/aes/*"
+      - "/auth/jwt/public_jwks"
+    write_paths:
+

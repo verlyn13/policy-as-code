@@ -1,0 +1,18 @@
+apiVersion: "infisical.verlyn13.dev/v1"
+kind: "ProjectRole"
+metadata:
+  name: "CI"
+  slug: "ci"
+spec:
+  permissions:
+    delete_secrets: false
+    manage_environments: false
+    manage_integrations_webhooks: false
+    manage_machine_identities: false
+    manage_project_settings: false
+    manage_roles: false
+    manage_service_tokens: false
+    read_secret_versions: true
+    read_secrets: true
+    view_audit_logs: false
+    write_secrets: false

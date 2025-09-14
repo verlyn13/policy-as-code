@@ -1,0 +1,14 @@
+apiVersion: "infisical.verlyn13.dev/v1"
+kind: "ProjectBinding"
+metadata:
+  identity: "rotator@ops-prod"
+  environment: "prod"
+spec:
+  project_role: "security-ops-prj"
+  permissions:
+    read_paths:
+      - "/auth/jwt/*"
+      - "/auth/aes/*"
+    write_paths:
+      - "/auth/jwt/*"
+      - "/auth/aes/*"

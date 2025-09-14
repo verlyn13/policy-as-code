@@ -1,0 +1,22 @@
+{
+  "api": {
+    "jwt_exp": 3600,
+    "jwt_secret": "***"
+  },
+  "auth": {
+    "email_confirm": true
+  },
+  "database": {
+    "rls_required": true
+  },
+  "exposure": {
+    "public_env": [
+      "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY"
+    ]
+  },
+  "keys": {
+    "anon": "anon",
+    "service_role": "svc"
+  }
+}

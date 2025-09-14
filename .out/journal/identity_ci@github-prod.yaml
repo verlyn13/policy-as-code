@@ -1,0 +1,28 @@
+apiVersion: "infisical.verlyn13.dev/v1"
+kind: "MachineIdentity"
+metadata:
+  name: "ci@github-prod"
+  labels:
+    env: "prod"
+spec:
+  project_role: "ci"
+  auth:
+    oidc:
+      access_token_ttl_seconds: 1800
+      audiences:
+        - "<copy-from-sample-gh-aud>"
+      discovery_url: "https://token.actions.githubusercontent.com"
+      enabled: true
+      issuer: "https://token.actions.githubusercontent.com"
+      subjects:
+        - "repo:<owner>/<repo>:ref:refs/heads/main"
+    token_auth:
+      access_token_max_ttl_seconds: 1800
+      access_token_max_uses: 0
+      access_token_ttl_seconds: 1800
+      enabled: true
+      trusted_ips:
+        - "0.0.0.0/0"
+        - "::/0"
+    universal_auth:
+      enabled: false

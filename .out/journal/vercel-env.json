@@ -1,0 +1,15 @@
+{
+  "env": {
+    "public": {
+      "NEXT_PUBLIC_SUPABASE_ANON_KEY": "public-key",
+      "NEXT_PUBLIC_SUPABASE_URL": "https://xyz.supabase.co"
+    },
+    "secret": {},
+    "server": {
+      "INFISICAL_ENVIRONMENT": "prod",
+      "INFISICAL_PROJECT_ID": "d01f583a-d833-4375-b359-c702a726ac4d",
+      "INFISICAL_SERVER_URL": "https://secrets.jefahnierocks.com"
+    }
+  },
+  "project": "journal"
+}

@@ -149,3 +149,6 @@ decision: ## Emit project decision JSON for journal to .out/journal/decision.jso
 
 drift-check: ## Ensure projects/ and data/ mirrors are in sync for journal
 	@opa eval -d policies/ -d data/ -d projects/ 'data.infisical.drift.decision' -f json | jq -e '.result[0].expressions[0].value.allowed == true' >/dev/null || { echo "Drift detected between projects/ and data/"; exit 1; }
+
+render: decision ## Generate .out/journal artifacts (roles, identities, bindings, platform manifests)
+	@./scripts/render-artifacts.py
